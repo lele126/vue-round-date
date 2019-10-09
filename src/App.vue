@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-	<VueRoundDate :minYear="minYear" :defaultDate="defaultDate" :content="content" @dateSelected="dateSelected"></VueRoundDate>
+	<VueRoundDate :windowWidth="windowWidth" :minYear="minYear" :defaultDate="defaultDate" :content="content" @dateSelected="dateSelected"></VueRoundDate>
   </div>
 </template>
 
@@ -11,7 +11,8 @@ export default {
 	  return{
 		  minYear:2005,
 		  defaultDate:'2018-8-8',
-		  content:'test<br>test'
+		  content:'test<br>test',
+		  windowWidth:document.documentElement.clientWidth-15,
 	  }
   },
   methods:{

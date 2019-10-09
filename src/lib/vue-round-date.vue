@@ -2,20 +2,20 @@
 	<div>
 		<div class="wrapper" ref="wrapper" :style="{width:wrapperWidth+'px'}">
 			<ul class="content" :style="{width:contentWidth+'px'}">
-				<li v-for="item in year" @click="yearSelected" :style="{width:liYearWidth+'px'}"><span>{{item}}</span></li>
+				<li v-for="item in year" :style="{width:liYearWidth+'px'}"><span @click="yearSelected">{{item}}</span></li>
 			</ul>
 		</div>
 		<div class="wrapper" ref="wrapperMonth" :style="{width:wrapperWidth+'px'}" v-show="monthShow">
 			<ul class="content" :style="{width:contentMonthWidth+'px'}">
-				<li v-for="item in month" @click="monthSelected" :style="{width:liWidth+'px'}"><span>{{item}}</span></li>
+				<li v-for="item in month" :style="{width:liWidth+'px'}"><span @click="monthSelected">{{item}}</span></li>
 			</ul>
 		</div>
 		<div class="wrapper" ref="wrapperDay" :style="{width:wrapperWidth+'px'}" v-show="dayShow">
 			<ul class="content" :style="{width:contentDayWidth+'px'}">
-				<li v-for="item in day" @click="daySelected" :style="{width:liWidth+'px'}"><span>{{item}}</span></li>
+				<li v-for="item in day" :style="{width:liWidth+'px'}"><span  @click="daySelected">{{item}}</span></li>
 			</ul>
 		</div>
-		<div class="tooltip" @click="dateSelected">
+		<div class="tooltip" @click="dateSelected" :style="{width:wrapperWidth+'px'}">
 			<div class="tooltiptext">
 				<div>{{currentYear}}年<span v-show="monthShow">{{currentMonth}}月</span><span v-show="dayShow">{{currentDay}}日</span></div>
 				<div v-html="content"></div>
@@ -61,6 +61,15 @@
 			minYear: Number,
 			defaultDate:String,
 			content:String,
+			windowWidth:Number,
+		},
+		watch:{
+			windowWidth(val){
+				this.wrapperWidth = val
+				this.scroll.refresh()
+				this.scrollM.refresh()
+				this.scrollD.refresh()
+			}
 		},
 		mounted() {
 			if (this.minYear == undefined) {
@@ -98,7 +107,7 @@
 				yearItem = yearItem - 1
 			}
 			this.year = this.year.reverse()
-			this.wrapperWidth = document.documentElement.clientWidth
+			this.wrapperWidth = this.windowWidth
 			this.liYearWidth = this.wrapperWidth / 7
 			this.liWidth = this.wrapperWidth / 9
 			this.contentWidth = this.wrapperWidth + this.liYearWidth * (yearCount - 7)
@@ -243,7 +252,7 @@
 
 	.tooltip .tooltiptext {
 		visibility: visible;
-		width: 120px;
+		width: 140px;
 		background-color: #FFF0D5;
 		color: #000;
 		text-align: center;
