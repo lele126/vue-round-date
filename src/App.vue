@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-	<VueRoundDate :minYear="minYear" :defaultDate="defaultDate" @dateSelected="dateSelected"></VueRoundDate>
+	<VueRoundDate :minYear="minYear" :defaultDate="defaultDate" :content="content" @dateSelected="dateSelected"></VueRoundDate>
   </div>
 </template>
 
@@ -9,8 +9,9 @@ export default {
   name: 'app',
   data(){
 	  return{
-		  minYear:2015,
-		  defaultDate:'2018-8-8'
+		  minYear:2005,
+		  defaultDate:'2018-8-8',
+		  content:'test<br>test'
 	  }
   },
   methods:{

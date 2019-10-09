@@ -16,7 +16,10 @@
 			</ul>
 		</div>
 		<div class="tooltip" @click="dateSelected">
-			<div class="tooltiptext">{{currentYear}}年<span v-show="monthShow">{{currentMonth}}月</span><span v-show="dayShow">{{currentDay}}日</span></div>
+			<div class="tooltiptext">
+				<div>{{currentYear}}年<span v-show="monthShow">{{currentMonth}}月</span><span v-show="dayShow">{{currentDay}}日</span></div>
+				<div v-html="content"></div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -56,7 +59,8 @@
 		},
 		props: {
 			minYear: Number,
-			defaultDate:String
+			defaultDate:String,
+			content:String,
 		},
 		mounted() {
 			if (this.minYear == undefined) {
@@ -244,7 +248,7 @@
 		color: #000;
 		text-align: center;
 		border-radius: 6px;
-		padding: 5px 0;
+		padding: 5px 5px;
 		z-index: 1;
 		margin: 0 auto;
 		box-sizing: border-box;
@@ -253,6 +257,7 @@
 		-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, .12);
 		-moz-box-sizing: border-box;
 		-moz-box-shadow: 0 2px 3px rgba(0, 0, 0, .12);
+		word-break: break-all;word-wrap: break-word;
 	}
 
 	.tooltip .tooltiptext::after {
