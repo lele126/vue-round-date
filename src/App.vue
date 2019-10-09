@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-	<VueRoundDate :msgp="msgp"></VueRoundDate>
+	<VueRoundDate :minYear="minYear" :defaultDate="defaultDate" @dateSelected="dateSelected"></VueRoundDate>
   </div>
 </template>
 
@@ -10,7 +9,13 @@ export default {
   name: 'app',
   data(){
 	  return{
-		  msgp:"是",
+		  minYear:2015,
+		  defaultDate:'2018-8-8'
+	  }
+  },
+  methods:{
+	  dateSelected(date){
+		  console.log(date)
 	  }
   }
 }
