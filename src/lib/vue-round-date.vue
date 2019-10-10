@@ -2,17 +2,17 @@
 	<div>
 		<div class="wrapper" ref="wrapper" :style="{width:wrapperWidth+'px'}">
 			<ul class="content" :style="{width:contentWidth+'px'}">
-				<li v-for="item in year" :style="{width:liYearWidth+'px'}"><span @click="yearSelected">{{item}}</span></li>
+				<li @click="yearSelected" v-for="item in year" :style="{width:liYearWidth+'px'}"><span>{{item}}</span></li>
 			</ul>
 		</div>
 		<div class="wrapper" ref="wrapperMonth" :style="{width:wrapperWidth+'px'}" v-show="monthShow">
 			<ul class="content" :style="{width:contentMonthWidth+'px'}">
-				<li v-for="item in month" :style="{width:liWidth+'px'}"><span @click="monthSelected">{{item}}</span></li>
+				<li @click="monthSelected" v-for="item in month" :style="{width:liWidth+'px'}"><span>{{item}}</span></li>
 			</ul>
 		</div>
 		<div class="wrapper" ref="wrapperDay" :style="{width:wrapperWidth+'px'}" v-show="dayShow">
 			<ul class="content" :style="{width:contentDayWidth+'px'}">
-				<li v-for="item in day" :style="{width:liWidth+'px'}"><span  @click="daySelected">{{item}}</span></li>
+				<li  @click="daySelected" v-for="item in day" :style="{width:liWidth+'px'}"><span>{{item}}</span></li>
 			</ul>
 		</div>
 		<div class="tooltip" @click="dateSelected" :style="{width:wrapperWidth+'px'}">
@@ -108,9 +108,9 @@
 			}
 			this.year = this.year.reverse()
 			this.wrapperWidth = this.windowWidth
-			this.liYearWidth = this.wrapperWidth / 7
+			this.liYearWidth = this.wrapperWidth / 6
 			this.liWidth = this.wrapperWidth / 9
-			this.contentWidth = this.wrapperWidth + this.liYearWidth * (yearCount - 7)
+			this.contentWidth = this.wrapperWidth + this.liYearWidth * (yearCount - 6)
 			this.contentMonthWidth = this.wrapperWidth + this.liWidth * (this.month - 9)
 			this.contentDayWidth = this.wrapperWidth + this.liWidth * (this.day - 9)
 
@@ -164,14 +164,17 @@
 				this.currentYear = this.changeEle(ele)
 				this.monthShow = true
 				this.initEle(this.$refs.wrapperMonth, this.currentMonth, 'month')
+				this.$emit("yearSelected",this.currentYear)
 			},
 			monthSelected(ele) {
 				this.currentMonth = this.changeEle(ele)
 				this.dayShow = true
 				this.initEle(this.$refs.wrapperDay, this.currentDay, 'day')
+        this.$emit("monthSelected",this.currentMonth)
 			},
 			daySelected(ele) {
 				this.currentDay = this.changeEle(ele)
+        this.$emit("daySelected",this.currentDay)
 			},
 			changeEle(ele) {
 				let span = ele.target
