@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
     // entry: './src/main.js',
   entry: './src/lib/index.js',
@@ -11,7 +12,7 @@ module.exports = {
     filename: 'vue-round-date.js',
     library: 'VueRoundDate',
     libraryTarget: 'umd',
-    umdNamedDefine: true 
+    umdNamedDefine: true
   },
   module: {
     rules: [
@@ -58,7 +59,10 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins:[
+    new VueLoaderPlugin(),
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {
@@ -70,11 +74,15 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
+    new UglifyJsPlugin({
+      uglifyOptions: {
+            compress: {
+              drop_console: true,//console
+              pure_funcs: ['console.log']//消除打包后的console语句
+			}
+       },
+	   sourceMap: true,
+	   parallel: true
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true

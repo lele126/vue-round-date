@@ -7,15 +7,17 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-	"dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules --mode production"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lele126/vue-round-date.git"
   },
   "dependencies": {
-    "vue": "^2.6.10"
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "vue": "^2.6.10",
+    "vue-loader": "^15.7.1"
   },
   "browserslist": [
     "> 1%",
@@ -30,20 +32,19 @@
   ],
   "homepage": "",
   "devDependencies": {
-    "better-scroll": "^1.15.2",
-    "core-js": "^2.6.5",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1",
+    "better-scroll": "^1.15.2",
+    "core-js": "^2.6.5",
     "cross-env": "^5.0.5",
-    "css-loader": "^0.28.7",
+    "css-loader": "^2.1.0",
     "file-loader": "^1.1.4",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.1",
-    "vue-loader": "^13.0.5",
-    "vue-template-compiler": "^2.4.4",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1"
+    "style-loader": "^1.0.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.1.11"
   }
 }
