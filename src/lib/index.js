@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import VueRoundDate from './vue-round-date.vue';
 
 const rounddate = {
