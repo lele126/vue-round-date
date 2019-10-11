@@ -2,17 +2,17 @@
 	<div>
 		<div class="wrapper" ref="wrapper" :style="{width:wrapperWidth+'px'}">
 			<ul class="content" :style="{width:contentWidth+'px'}">
-				<li @click="yearSelected" v-for="item in year" :style="{width:liYearWidth+'px'}"><span>{{item}}</span></li>
+				<li @click="yearSelected" v-for="(item,index) in year" :style="{width:liYearWidth+'px'}"><span class="text">{{item}}</span><span v-if="index<year.length-1" class="line"></span></li>
 			</ul>
 		</div>
 		<div class="wrapper" ref="wrapperMonth" :style="{width:wrapperWidth+'px'}" v-show="monthShow">
 			<ul class="content" :style="{width:contentMonthWidth+'px'}">
-				<li @click="monthSelected" v-for="item in month" :style="{width:liWidth+'px'}"><span>{{item}}</span></li>
+				<li @click="monthSelected" v-for="item in month" :style="{width:liWidth+'px'}"><span class="text">{{item}}</span><span v-if="item<month" class="line"></span></li>
 			</ul>
 		</div>
 		<div class="wrapper" ref="wrapperDay" :style="{width:wrapperWidth+'px'}" v-show="dayShow">
 			<ul class="content" :style="{width:contentDayWidth+'px'}">
-				<li  @click="daySelected" v-for="item in day" :style="{width:liWidth+'px'}"><span>{{item}}</span></li>
+				<li @click="daySelected" v-for="item in day" :style="{width:liWidth+'px'}"><span class="text">{{item}}</span><span v-if="item<day" class="line"></span></li>
 			</ul>
 		</div>
 		<div class="tooltip" @click="dateSelected" :style="{width:wrapperWidth+'px'}">
@@ -59,12 +59,12 @@
 		},
 		props: {
 			minYear: Number,
-			defaultDate:String,
-			content:String,
-			windowWidth:Number,
+			defaultDate: String,
+			content: String,
+			windowWidth: Number,
 		},
-		watch:{
-			windowWidth(val){
+		watch: {
+			windowWidth(val) {
 				this.wrapperWidth = val
 				this.scroll.refresh()
 				this.scrollM.refresh()
@@ -78,12 +78,12 @@
 			if (this.minYear < 1949) {
 				this.minYear = 1949
 			}
-			if(this.defaultDate==undefined){
+			if (this.defaultDate == undefined) {
 				var date = new Date();
 				this.currentYear = date.getFullYear(); //获取完整的年份(4位,2017)
 				this.currentMonth = date.getMonth() + 1; //获取当前月份(0-11,0代表1月)
 				this.currentDay = date.getDate(); //获取当前日(1-31)
-			}else{
+			} else {
 				this.currentYear = parseInt(this.defaultDate.split('-')[0]) //获取完整的年份(4位,2017)
 				this.currentMonth = parseInt(this.defaultDate.split('-')[1]) //获取当前月份(0-11,0代表1月)
 				this.currentDay = parseInt(this.defaultDate.split('-')[2]) //获取当前日(1-31)
@@ -162,19 +162,20 @@
 			},
 			yearSelected(ele) {
 				this.currentYear = this.changeEle(ele)
-				this.monthShow = true
-				this.initEle(this.$refs.wrapperMonth, this.currentMonth, 'month')
-				this.$emit("yearSelected",this.currentYear)
+				if (this.currentMonth != undefined && this.currentMonth > 0) {
+					this.monthShow = true
+					this.initEle(this.$refs.wrapperMonth, this.currentMonth, 'month')
+				}
 			},
 			monthSelected(ele) {
 				this.currentMonth = this.changeEle(ele)
-				this.dayShow = true
-				this.initEle(this.$refs.wrapperDay, this.currentDay, 'day')
-        this.$emit("monthSelected",this.currentMonth)
+				if (this.currentDay != undefined && this.currentDay > 0) {
+					this.dayShow = true
+					this.initEle(this.$refs.wrapperDay, this.currentDay, 'day')
+				}
 			},
 			daySelected(ele) {
 				this.currentDay = this.changeEle(ele)
-        this.$emit("daySelected",this.currentDay)
 			},
 			changeEle(ele) {
 				let span = ele.target
@@ -191,9 +192,9 @@
 				li.style.backgroundColor = '#FF0000'
 				return span.innerText
 			},
-			dateSelected(){
-				var date = this.currentYear+'-'+this.currentMonth+'-'+this.currentDay
-				this.$emit("dateSelected",date)
+			dateSelected() {
+				var date = this.currentYear + '-' + this.currentMonth + '-' + this.currentDay
+				this.$emit("dateSelected", date)
 			}
 		}
 	}
@@ -229,9 +230,10 @@
 		padding: 0;
 		margin: 0;
 		cursor: pointer;
+		position: relative;
 	}
 
-	li>span {
+	.text{
 		background-color: #fff;
 		display: block;
 		height: 38px;
@@ -239,7 +241,15 @@
 		-webkit-user-select: none;
 		user-select: none;
 	}
-
+	.line{
+		top:17px;
+		right:1px;
+		height:10px;
+		position: absolute;
+		width:1px;
+		border-right:1px solid #e9e9e9;
+	}
+	
 	li:hover {
 		color: red;
 		background-color: #FF0000;
@@ -269,7 +279,8 @@
 		-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, .12);
 		-moz-box-sizing: border-box;
 		-moz-box-shadow: 0 2px 3px rgba(0, 0, 0, .12);
-		word-break: break-all;word-wrap: break-word;
+		word-break: break-all;
+		word-wrap: break-word;
 	}
 
 	.tooltip .tooltiptext::after {
